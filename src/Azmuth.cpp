@@ -103,7 +103,7 @@ void loop() {
     Serial.print("Button pressed\n");
     ring.show();
     Serial.println("Before func");
-    int counter =scroller();
+    int counter = scroller();
     Serial.print("After func: Counter = ");
     Serial.print(char(counter));
     Modes[counter](); //Using the int returned from scroller() as the index for the array of modes to choose which one to activate
