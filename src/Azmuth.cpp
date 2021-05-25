@@ -35,9 +35,6 @@ int scroller() {
   int counter = 0;
   unsigned long time;
   unsigned long timeLeft = millis() + 2000;
-  Serial.println("Inside func");
-  Serial.println(timeLeft);
-  Serial.println(millis());
   time = millis();
   while (time < timeLeft){
     // buttonMain.read();
@@ -45,10 +42,6 @@ int scroller() {
     buttonRight.read();
       if (buttonLeft.wasPressed()) { //Checking if either of the side buttons were pressed
         counter++;
-        Serial.print("[Scroller] counter = ");
-        Serial.println(counter);
-        Serial.println("[Scroller] counter mod = ");
-        Serial.println(counter % MODE_COUNT);
         ring.setPixelColor((counter % LED_COUNT) -1 , 0, 128, 0);
         ring.show();
         timeLeft = millis()+2000;
@@ -70,8 +63,6 @@ int scroller() {
   }
   ring.clear();
   ring.show();
-  Serial.print("Inner counter = ");
-  Serial.println(counter);
   return counter % MODE_COUNT;
 }
 
@@ -82,7 +73,6 @@ void setup() {
   buttonRight.begin();
   buttonLeft.begin();
   Serial.begin(9600);
-  Serial.print("Started!\n");
   rtc.begin();
   ring.begin();
   ring.show();
@@ -95,23 +85,13 @@ void loop() {
   buttonMain.read();
   buttonRight.read();
   buttonLeft.read();
-  if(buttonLeft.wasPressed()) {
-  Serial.print("Left Button Pressed!\n");
-  }
   if(buttonMain.wasPressed()){
     ring.setPixelColor(0, 0, 128, 0); //debugging; set top pixel to green
-    Serial.print("Button pressed\n");
     ring.show();
-    Serial.println("Before func");
     int counter = scroller();
-    Serial.print("After func: Counter = ");
-    Serial.print(char(counter));
     Modes[counter](); //Using the int returned from scroller() as the index for the array of modes to choose which one to activate
     ring.clear();
     ring.show();
-  }
-  if (buttonRight.wasPressed()) {
-    Serial.print("Right Button Pressed!\n");
   }
 }
 
